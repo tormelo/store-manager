@@ -10,7 +10,7 @@ describe('Testes de unidade do model de produtos', function () {
 
   it('Recuperando a lista de produtos', async function () {
     sinon.stub(connection, 'execute').resolves([allProductsResponse]);
-    const result = await productsModel.listAll();
+    const result = await productsModel.findAll();
     expect(result).to.be.deep.equal(allProductsResponse);
   });
 
