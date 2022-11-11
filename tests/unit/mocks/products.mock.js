@@ -5,10 +5,13 @@ const allProductsResponse = [
 ];
 const productCreateResponse = { id: 4, name: 'Machado do Thor Stormbreaker' };
 
-const productCreateBody = { name: 'Machado do Thor Stormbreaker' };
+const validProductBody = { name: 'Machado do Thor Stormbreaker' };
+
+const invalidProductBody = { name: 'Prod' };
 
 module.exports = {
   allProductsResponse,
   productCreateResponse,
-  productCreateBody,
+  validProductBody,
+  invalidProductBody
 }
