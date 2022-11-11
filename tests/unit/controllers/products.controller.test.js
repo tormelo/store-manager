@@ -8,7 +8,12 @@ chai.use(sinonChai);
 const { productsService } = require('../../../src/services');
 const { productsController } = require('../../../src/controllers');
 
-const { allProductsResponse, invalidProductBody, invalidNameCreateResponse, validProductBody, productCreateResponse } = require('../mocks/products.mock');
+const {
+  allProductsResponse,
+  invalidProductBody,
+  validProductBody,
+  productCreateResponse
+} = require('../mocks/products.mock');
 
 describe('Testes de unidade do controller de produtos', function () {
   afterEach(sinon.restore);
@@ -99,7 +104,7 @@ describe('Testes de unidade do controller de produtos', function () {
       await productsController.createProduct(req, res);
 
       expect(res.status).to.have.been.calledWith(422);
-      expect(res.json).to.have.been.calledWith({ message: invalidNameCreateResponse.message });
+      expect(res.json).to.have.been.calledWith({ message: '"name" length must be at least 5 characters long' });
     });
   });
 });
