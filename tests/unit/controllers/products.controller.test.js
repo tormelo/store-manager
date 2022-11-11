@@ -8,7 +8,7 @@ chai.use(sinonChai);
 const { productsService } = require('../../../src/services');
 const { productsController } = require('../../../src/controllers');
 
-const { allProductsResponse } = require('../mocks/products.mock');
+const { allProductsResponse, invalidProductBody, invalidNameCreateResponse, validProductBody, productCreateResponse } = require('../mocks/products.mock');
 
 describe('Testes de unidade do controller de produtos', function () {
   afterEach(sinon.restore);
@@ -68,6 +68,38 @@ describe('Testes de unidade do controller de produtos', function () {
   
       expect(res.status).to.have.been.calledWith(404);
       expect(res.json).to.have.been.calledWith({ message: 'Product not found'});
+    });
+  });
+
+  describe('Cadastrando um produto', async function () {
+    it('deve retornar status 201 e produto em caso de sucesso', async function () {
+      const req = { body: validProductBody };
+
+      const res = {};
+      res.status = sinon.stub().returns(res);
+      res.json = sinon.stub().returns();
+
+      sinon
+        .stub(productsService, 'createProduct')
+        .resolves({type: null, message: productCreateResponse});
+
+      await productsController.createProduct(req, res);
+
+      expect(res.status).to.have.been.calledWith(201);
+      expect(res.json).to.have.been.calledWith(productCreateResponse);
+    });
+
+    it('deve retornar erro e status 422 caso nome for inválido', async function () {
+      const req = { body: invalidProductBody };
+
+      const res = {};
+      res.status = sinon.stub().returns(res);
+      res.json = sinon.stub().returns();
+
+      await productsController.createProduct(req, res);
+
+      expect(res.status).to.have.been.calledWith(422);
+      expect(res.json).to.have.been.calledWith({ message: invalidNameCreateResponse.message });
     });
   });
 });
