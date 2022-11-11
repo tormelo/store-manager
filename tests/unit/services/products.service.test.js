@@ -4,7 +4,12 @@ const sinon = require('sinon');
 const { productsService } = require('../../../src/services');
 const { productsModel } = require('../../../src/models');
 
-const { allProductsResponse } = require('../mocks/products.mock');
+const {
+  allProductsResponse,
+  productCreateResponse,
+  validProductBody,
+  invalidProductBody
+} = require('../mocks/products.mock');
 
 describe('Testes de unidade do service de produtos', function () {
   afterEach(sinon.restore);
@@ -30,5 +35,18 @@ describe('Testes de unidade do service de produtos', function () {
       expect(result.type).to.equal('PRODUCT_NOT_FOUND');
       expect(result.message).to.equal('Product not found');
     });
+  });
+
+  describe('Cadastro de um produto', async function () {
+    it('deve retornar o produto em caso de sucesso', async function () {
+      sinon.stub(productsModel, 'insert').resolves(productCreateResponse);
+      const { message } = await productsService.createProduct(validProductBody);
+      expect(message).to.be.deep.equal(productCreateResponse);
+    });
+    it('deve retornar erro se nome for inválido', async function () {
+      const { type, message } = await productsService.createProduct(invalidProductBody);
+      expect(type).to.equal('INVALID_VALUE');
+      expect(message).to.equal('"name" length must be at least 5 characters long');
+    })
   });
 });
