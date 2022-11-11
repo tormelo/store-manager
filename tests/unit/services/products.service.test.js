@@ -4,7 +4,6 @@ const sinon = require('sinon');
 const { productsService } = require('../../../src/services');
 const { productsModel } = require('../../../src/models');
 
-const connection = require('../../../src/models/connection');
 const { allProductsResponse } = require('../mocks/products.mock');
 
 describe('Testes de unidade do service de produtos', function () {
