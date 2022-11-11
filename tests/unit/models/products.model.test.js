@@ -13,4 +13,10 @@ describe('Testes de unidade do model de produtos', function () {
     const result = await productsModel.listAll();
     expect(result).to.be.deep.equal(allProductsResponse);
   });
+
+  it('Recuperando um produto a partir do seu id', async function () {
+    sinon.stub(connection, 'execute').resolves([[allProductsResponse[0]]]);
+    const result = await productsModel.findById(1);
+    expect(result).to.be.deep.equal(allProductsResponse[0]);
+  });
 });
