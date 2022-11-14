@@ -1,6 +1,5 @@
 const express = require('express');
 const { productsController } = require('../controllers');
-const validateNewProduct = require('../middlewares/validateNewProduct');
 
 const router = express.Router();
 
@@ -16,7 +15,6 @@ router.get(
 
 router.post(
   '/',
-  validateNewProduct,
   productsController.createProduct,
 );
 
