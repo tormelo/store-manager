@@ -11,11 +11,47 @@ const { salesController } = require('../../../src/controllers');
 const {
   validSaleBody,
   saleRegisterResponse,
-  invalidQuantitySaleBody
+  invalidQuantitySaleBody,
+  saleByIdResponse
 } = require('../mocks/sales.mock');
 
 describe('Testes de unidade do controller de sales', function () {
   afterEach(sinon.restore);
+
+  describe('Buscando venda por id', async function () {
+    it('deve retornar status 200 e informações da venda em caso de sucesso', async function () {
+      const req = { params: { id: 1 } };
+
+      const res = {};
+      res.status = sinon.stub().returns(res);
+      res.json = sinon.stub().returns();
+
+      sinon
+        .stub(salesService, 'findById')
+        .resolves({ type: null, message: saleByIdResponse });
+
+      await salesController.getSaleById(req, res);
+
+      expect(res.status).to.have.been.calledWith(200);
+      expect(res.json).to.have.been.calledWith(saleByIdResponse);
+    });
+    it('deve retornar status 404 caso não exista a venda buscada', async function () {
+      const req = { params: { id: 1 } };
+
+      const res = {};
+      res.status = sinon.stub().returns(res);
+      res.json = sinon.stub().returns();
+
+      sinon
+        .stub(salesService, 'findById')
+        .resolves({ type: 'SALE_NOT_FOUND', message: 'Sale not found' });
+
+      await salesController.getSaleById(req, res);
+
+      expect(res.status).to.have.been.calledWith(404);
+      expect(res.json).to.have.been.calledWith({ message: 'Sale not found' });
+    });
+  });
 
   describe('Cadastrando uma venda', async function () {
     it('deve retornar status 201 e informações da venda em caso de sucesso', async function () {
