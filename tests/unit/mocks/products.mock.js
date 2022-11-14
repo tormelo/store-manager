@@ -41,11 +41,37 @@ const updatedProduct = {
   name: 'Martelo do Batman'
 };
 
+const deleteResponse = [
+  {
+    fieldCount: 0,
+    affectedRows: 1,
+    insertId: 0,
+    info: '',
+    serverStatus: 2,
+    warningStatus: 0
+  },
+  undefined
+];
+
+const invalidDeleteResponse = [
+  {
+    fieldCount: 0,
+    affectedRows: 0,
+    insertId: 0,
+    info: '',
+    serverStatus: 2,
+    warningStatus: 0
+  },
+  undefined
+];
+
 module.exports = {
   allProductsResponse,
   productCreateResponse,
   updateResponse,
   invalidUpdateResponse,
+  deleteResponse,
+  invalidDeleteResponse,
   validProductBody,
   validAltProductBody,
   invalidProductBody,
