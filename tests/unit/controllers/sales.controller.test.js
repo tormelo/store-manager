@@ -105,4 +105,36 @@ describe('Testes de unidade do controller de sales', function () {
       });
     });
   });
+
+  describe('Removendo uma venda', async function () {
+    it('deve retornar status 204 em caso de sucesso', async function () {
+      const req = { params: { id: 1 } };
+
+      const res = {};
+      res.status = sinon.stub().returns(res);
+      res.send = sinon.stub().returns();
+      sinon
+        .stub(salesService, 'removeSale')
+        .resolves({ type: '', message: '' });
+
+      await salesController.removeSale(req, res);
+
+      expect(res.status).to.have.been.calledWith(204);
+    });
+    it('deve retornar status 404 se não encontrar venda', async function () {
+      const req = { params: { id: 1 } };
+
+      const res = {};
+      res.status = sinon.stub().returns(res);
+      res.json = sinon.stub().returns();
+      sinon
+        .stub(salesService, 'removeSale')
+        .resolves({ type: 'SALE_NOT_FOUND', message: 'Sale not found' });
+
+      await salesController.removeSale(req, res);
+
+      expect(res.status).to.have.been.calledWith(404);
+      expect(res.json).to.have.been.calledWith({ message: 'Sale not found' });
+    });
+  });
 });
