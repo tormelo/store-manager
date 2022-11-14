@@ -12,7 +12,9 @@ const {
   updateResponse,
   updatedProduct,
   validAltProductBody,
-  invalidUpdateResponse
+  invalidUpdateResponse,
+  invalidDeleteResponse,
+  deleteResponse
 } = require('../mocks/products.mock');
 
 describe('Testes de unidade do service de produtos', function () {
@@ -73,6 +75,20 @@ describe('Testes de unidade do service de produtos', function () {
     it('deve retornar erro caso não tenha encontrado produto', async function () {
       sinon.stub(productsModel, 'update').resolves(invalidUpdateResponse[0]);
       const { type, message } = await productsService.updateProduct(1, validAltProductBody);
+      expect(type).to.equal('PRODUCT_NOT_FOUND');
+      expect(message).to.equal('Product not found');
+    })
+  });
+
+  describe('Remoção de um produto', async function () {
+    it('deve retornar undefined em caso de sucesso', async function () {
+      sinon.stub(productsModel, 'remove').resolves(deleteResponse[0]);
+      const result = await productsService.removeProduct(1);
+      expect(result).to.equal(undefined);
+    })
+    it('deve retornar erro caso não tenha encontrado produto', async function () {
+      sinon.stub(productsModel, 'remove').resolves(invalidDeleteResponse[0]);
+      const { type, message } = await productsService.removeProduct(100);
       expect(type).to.equal('PRODUCT_NOT_FOUND');
       expect(message).to.equal('Product not found');
     })

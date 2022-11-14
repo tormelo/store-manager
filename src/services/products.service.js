@@ -30,9 +30,15 @@ const updateProduct = async (id, productBody) => {
   return { type: null, message: { id, ...productBody } };
 };
 
+const removeProduct = async (id) => {
+  const { affectedRows } = await productsModel.remove(id);
+  if (!affectedRows) return { type: 'PRODUCT_NOT_FOUND', message: 'Product not found' };
+};
+
 module.exports = {
   findAll,
   findById,
   createProduct,
   updateProduct,
+  removeProduct,
 };
