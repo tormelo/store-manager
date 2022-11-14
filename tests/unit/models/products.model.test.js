@@ -25,6 +25,12 @@ describe('Testes de unidade do model de produtos', function () {
     expect(result).to.be.deep.equal(allProductsResponse[0]);
   });
 
+  it('Recuperando produtos por query', async function () {
+    sinon.stub(connection, 'execute').resolves([allProductsResponse]);
+    const result = await productsModel.findByQuery('');
+    expect(result).to.be.deep.equal(allProductsResponse);
+  });
+
   it('Cadastrando um produto', async function () {
     sinon.stub(connection, 'execute').resolves([{insertId: 4}]);
     const result = await productsModel.insert(validProductBody.name);
