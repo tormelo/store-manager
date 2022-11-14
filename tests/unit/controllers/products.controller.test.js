@@ -12,7 +12,9 @@ const {
   allProductsResponse,
   invalidProductBody,
   validProductBody,
-  productCreateResponse
+  productCreateResponse,
+  validAltProductBody,
+  updatedProduct
 } = require('../mocks/products.mock');
 
 describe('Testes de unidade do controller de produtos', function () {
@@ -105,6 +107,45 @@ describe('Testes de unidade do controller de produtos', function () {
 
       expect(res.status).to.have.been.calledWith(422);
       expect(res.json).to.have.been.calledWith({ message: '"name" length must be at least 5 characters long' });
+    });
+  });
+
+  describe('Atualizando um produto', async function () {
+    it('deve retornar o produto atualizado', async function () {
+      const req = {
+        body: validAltProductBody,
+        params: { id: 1 },
+      };
+
+      const res = {};
+      res.status = sinon.stub().returns(res);
+      res.json = sinon.stub().returns();
+      sinon
+        .stub(productsService, 'updateProduct')
+        .resolves({ type: null, message: updatedProduct });
+
+      await productsController.updateProduct(req, res);
+
+      expect(res.status).to.have.been.calledWith(200);
+      expect(res.json).to.have.been.calledWith(updatedProduct);
+    });
+    it('deve retornar mensagem se produto não foi encontrado', async function () {
+      const req = {
+        body: validAltProductBody,
+        params: { id: 100 },
+      };
+
+      const res = {};
+      res.status = sinon.stub().returns(res);
+      res.json = sinon.stub().returns();
+      sinon
+        .stub(productsService, 'updateProduct')
+        .resolves({ type: 'PRODUCT_NOT_FOUND', message: 'Product not Found' });
+
+      await productsController.updateProduct(req, res);
+
+      expect(res.status).to.have.been.calledWith(404);
+      expect(res.json).to.have.been.calledWith({ message: 'Product not Found' });
     });
   });
 });
