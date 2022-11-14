@@ -1,6 +1,12 @@
 const { salesModel } = require('../models');
 const { validateSaleBody } = require('./validations/inputValidations');
 
+const findAll = async () => {
+  const sales = await salesModel.findAll();
+
+  return { type: null, message: sales };
+};
+
 const findById = async (id) => {
   const sale = await salesModel.findById(id);
   if (sale.length === 0) return { type: 'SALE_NOT_FOUND', message: 'Sale not found' };
@@ -23,6 +29,7 @@ const registerSale = async (saleBody) => {
 };
 
 module.exports = {
+  findAll,
   findById,
   registerSale,
 };

@@ -11,10 +11,19 @@ const {
   saleInsertResponse,
   saleRegisterResponse,
   saleByIdResponse,
+  allSalesResponse,
 } = require('../mocks/sales.mock');
 
 describe('Testes de unidade do service sales', function () {
   afterEach(sinon.restore);
+  describe('Busca de vendas', async function () {
+    it('deve retornar a lista de todas as vendas', async function () {
+      sinon.stub(salesModel, 'findAll').resolves(allSalesResponse);
+      const { message } = await salesService.findAll();
+      expect(message).to.be.deep.equal(allSalesResponse);
+    });
+  });
+
   describe('Busca de venda por id', async function () {
     it('deve retornar a venda em caso de sucesso', async function () {
       sinon.stub(salesModel, 'findById').resolves(saleByIdResponse);
