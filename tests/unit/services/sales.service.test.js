@@ -70,13 +70,13 @@ describe('Testes de unidade do service sales', function () {
   describe('Remoção de uma venda', async function () {
     it('deve retornar mensagem vazia em caso de sucesso', async function () {
       sinon.stub(salesModel, 'remove').resolves(deleteResponse[0]);
-      const { type, message } = await salesService.removeProduct(1);
+      const { type, message } = await salesService.removeSale(1);
       expect(type).to.equal('');
       expect(message).to.equal('');
     })
     it('deve retornar erro caso não tenha encontrado venda', async function () {
       sinon.stub(salesModel, 'remove').resolves(invalidDeleteResponse[0]);
-      const { type, message } = await salesService.removeProduct(100);
+      const { type, message } = await salesService.removeSale(100);
       expect(type).to.equal('SALE_NOT_FOUND');
       expect(message).to.equal('Sale not found');
     })

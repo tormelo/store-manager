@@ -28,7 +28,7 @@ const registerSale = async (saleBody) => {
   return { type: null, message: newSale };
 };
 
-const removeProduct = async (id) => {
+const removeSale = async (id) => {
   const { affectedRows } = await salesModel.remove(id);
   if (!affectedRows) return { type: 'SALE_NOT_FOUND', message: 'Sale not found' };
   return { type: '', message: '' };
@@ -38,5 +38,5 @@ module.exports = {
   findAll,
   findById,
   registerSale,
-  removeProduct,
+  removeSale,
 };
