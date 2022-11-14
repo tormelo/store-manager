@@ -12,11 +12,30 @@ const {
   validSaleBody,
   saleRegisterResponse,
   invalidQuantitySaleBody,
-  saleByIdResponse
+  saleByIdResponse,
+  allSalesResponse
 } = require('../mocks/sales.mock');
 
 describe('Testes de unidade do controller de sales', function () {
   afterEach(sinon.restore);
+
+  describe('Buscando lista de vendas', async function () {
+    it('deve retornar status 200 e lista de vendas', async function () {
+      const req = {};
+      const res = {};
+      res.status = sinon.stub().returns(res);
+      res.json = sinon.stub().returns();
+
+      sinon
+        .stub(salesService, 'findAll')
+        .resolves({ type: null, message: allSalesResponse });
+
+      await salesController.getSales(req, res);
+
+      expect(res.status).to.have.been.calledWith(200);
+      expect(res.json).to.have.been.calledWith(allSalesResponse);
+    });
+  });
 
   describe('Buscando venda por id', async function () {
     it('deve retornar status 200 e informações da venda em caso de sucesso', async function () {
