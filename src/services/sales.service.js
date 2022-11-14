@@ -1,5 +1,5 @@
 const { salesModel } = require('../models');
-const { validateSaleBody } = require('./validations/inputValidations');
+const { validateSaleBody, validateSaleUpdate } = require('./validations/inputValidations');
 
 const findAll = async () => {
   const sales = await salesModel.findAll();
@@ -28,6 +28,20 @@ const registerSale = async (saleBody) => {
   return { type: null, message: newSale };
 };
 
+const updateSale = async (saleId, saleBody) => {
+  const error = await validateSaleUpdate(saleId, saleBody);
+  if (error.type) return error;
+
+  await salesModel.update(saleId, saleBody);
+  const updatedSale = {
+    saleId,
+    itemsUpdated: [
+      ...saleBody,
+    ],
+  };
+  return { type: null, message: updatedSale };
+};
+
 const removeSale = async (id) => {
   const { affectedRows } = await salesModel.remove(id);
   if (!affectedRows) return { type: 'SALE_NOT_FOUND', message: 'Sale not found' };
@@ -38,5 +52,6 @@ module.exports = {
   findAll,
   findById,
   registerSale,
+  updateSale,
   removeSale,
 };

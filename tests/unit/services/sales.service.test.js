@@ -12,12 +12,16 @@ const {
   saleRegisterResponse,
   saleByIdResponse,
   allSalesResponse,
+  updatedSaleBody,
+  saleUpdateResponse,
 } = require('../mocks/sales.mock');
 
 const {
   deleteResponse,
   invalidDeleteResponse,
+  insertResponse,
 } = require('../mocks/generic.mock');
+const { allProductsResponse } = require('../mocks/products.mock');
 
 describe('Testes de unidade do service sales', function () {
   afterEach(sinon.restore);
@@ -65,6 +69,22 @@ describe('Testes de unidade do service sales', function () {
       expect(type).to.equal('REQUIRED_FIELD');
       expect(message).to.equal('"quantity" is required');
     })
+  });
+
+  describe('Atualização de uma venda', async function () {
+    it('deve retornar a venda atualizada em caso de sucesso', async function () {
+      sinon.stub(productsModel, 'findById').resolves([[allProductsResponse[0]]]);
+      sinon.stub(salesModel, 'findById').resolves([saleByIdResponse]);
+      sinon.stub(salesModel, 'update').resolves(insertResponse);
+      const { message } = await salesService.updateSale(1, updatedSaleBody);
+      expect(message).to.be.deep.equal(saleUpdateResponse);
+    });
+    it('deve retornar erro caso a venda não exista', async function () {
+      sinon.stub(salesModel, 'findById').resolves([]);
+      const { type, message } = await salesService.updateSale(100, updatedSaleBody);
+      expect(type).to.be.deep.equal('SALE_NOT_FOUND');
+      expect(message).to.be.deep.equal('Sale not found');
+    });
   });
 
   describe('Remoção de uma venda', async function () {

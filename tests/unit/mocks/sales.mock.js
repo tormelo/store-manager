@@ -4,8 +4,8 @@ const validSaleBody = [
 ];
 
 const updatedSaleBody = [
-  { productId: 1, quantity: 1 },
-  { productId: 2, quantity: 5 },
+  { productId: 1, quantity: 11 },
+  { productId: 2, quantity: 54 },
 ];
 
 const invalidQuantitySaleBody = [
@@ -16,7 +16,7 @@ const invalidQuantitySaleBody = [
 const invalidSaleBody = [
   { productId: 1, quantity: 1 },
   { productId: 2 },
-]
+];
 
 const saleByIdResponse = [
   {
@@ -60,7 +60,21 @@ const saleRegisterResponse = {
       "quantity": 5
     }
   ]
-}
+};
+
+const saleUpdateResponse = {
+  "saleId": 1,
+  "itemsUpdated": [
+    {
+      "productId": 1,
+      "quantity": 11
+    },
+    {
+      "productId": 2,
+      "quantity": 54
+    }
+  ]
+};
 
 module.exports = {
   validSaleBody,
@@ -71,4 +85,5 @@ module.exports = {
   allSalesResponse,
   saleInsertResponse,
   saleRegisterResponse,
+  saleUpdateResponse,
 }
