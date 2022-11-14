@@ -3,10 +3,15 @@ const validSaleBody = [
   { productId: 2, quantity: 5 },
 ];
 
-const badQuantitySaleBody = [
+const invalidQuantitySaleBody = [
   { productId: 1, quantity: 1 },
   { productId: 2, quantity: 0 },
 ];
+
+const invalidSaleBody = [
+  { productId: 1, quantity: 1 },
+  { productId: 2 },
+]
 
 const saleInsertResponse = 3;
 
@@ -26,7 +31,8 @@ const saleRegisterResponse = {
 
 module.exports = {
   validSaleBody,
-  badQuantitySaleBody,
+  invalidSaleBody,
+  invalidQuantitySaleBody,
   saleInsertResponse,
   saleRegisterResponse,
 }

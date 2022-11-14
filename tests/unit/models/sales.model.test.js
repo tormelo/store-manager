@@ -10,6 +10,7 @@ describe('Testes de unidade do model de sales', function () {
 
   it('Cadastrando uma venda', async function () {
     sinon.stub(connection, 'execute').resolves([{ insertId: 4 }]);
+    sinon.stub(connection, 'query').resolves();
     const result = await salesModel.insert(validSaleBody);
     expect(result).to.be.deep.equal(4);
   });

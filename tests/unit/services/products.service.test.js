@@ -48,5 +48,10 @@ describe('Testes de unidade do service de produtos', function () {
       expect(type).to.equal('INVALID_VALUE');
       expect(message).to.equal('"name" length must be at least 5 characters long');
     })
+    it('deve retornar erro não possuir campo nome', async function () {
+      const { type, message } = await productsService.createProduct({});
+      expect(type).to.equal('REQUIRED_FIELD');
+      expect(message).to.equal('"name" is required');
+    })
   });
 });

@@ -6,7 +6,8 @@ const { salesModel, productsModel } = require('../../../src/models');
 
 const {
   validSaleBody,
-  badQuantitySaleBody,
+  invalidSaleBody,
+  invalidQuantitySaleBody,
   saleInsertResponse,
   saleRegisterResponse,
 } = require('../mocks/sales.mock');
@@ -21,7 +22,7 @@ describe('Testes de unidade do service sales', function () {
       expect(message).to.be.deep.equal(saleRegisterResponse);
     });
     it('deve retornar erro se quantidade de items for inválida', async function () {
-      const { type, message } = await salesService.registerSale(badQuantitySaleBody);
+      const { type, message } = await salesService.registerSale(invalidQuantitySaleBody);
       expect(type).to.equal('INVALID_VALUE');
       expect(message).to.equal('"quantity" must be greater than or equal to 1');
     })
@@ -30,6 +31,11 @@ describe('Testes de unidade do service sales', function () {
       const { type, message } = await salesService.registerSale(validSaleBody);
       expect(type).to.equal('PRODUCT_NOT_FOUND');
       expect(message).to.equal('Product not found');
+    })
+    it('deve retornar erro caso um campo obrigatório for omitido', async function () {
+      const { type, message } = await salesService.registerSale(invalidSaleBody);
+      expect(type).to.equal('REQUIRED_FIELD');
+      expect(message).to.equal('"quantity" is required');
     })
   });
 });

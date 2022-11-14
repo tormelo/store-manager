@@ -22,8 +22,6 @@ const validateSalesData = (saleBody) => {
     
     return { type: 'INVALID_VALUE', message };
   }
-
-  return {};
 };
 
 const validateSaleProducts = async (saleBody) => {
@@ -34,8 +32,6 @@ const validateSaleProducts = async (saleBody) => {
   }));
 
   if (notFound) return { type: 'PRODUCT_NOT_FOUND', message: 'Product not found' };
-
-  return {};
 };
 
 const validateSaleBody = async (saleBody) => {
