@@ -9,9 +9,23 @@ const validProductBody = { name: 'Machado do Thor Stormbreaker' };
 
 const invalidProductBody = { name: 'Prod' };
 
+const updateResponse = [
+  {
+    fieldCount: 0,
+    affectedRows: 1,
+    insertId: 0,
+    info: 'Rows matched: 1  Changed: 1  Warnings: 0',
+    serverStatus: 2,
+    warningStatus: 0,
+    changedRows: 1
+  },
+  undefined
+]
+
 module.exports = {
   allProductsResponse,
   productCreateResponse,
+  updateResponse,
   validProductBody,
   invalidProductBody,
 }
