@@ -26,6 +26,14 @@ describe('Testes de unidade do service de produtos', function () {
     });
   });
 
+  describe('Busca de produtos por query', function () {
+    it('deve retornar a lista de produtos encontrados', async function () {
+      sinon.stub(productsModel, 'findByQuery').resolves(allProductsResponse);
+      const result = await productsService.findByQuery('');
+      expect(result.message).to.be.deep.equal(allProductsResponse);
+    });
+  });
+
   describe('Busca de produto a partir do seu id', function () {
     it('deve retornar o produto caso id exista', async function () {
       sinon.stub(productsModel, 'findById').resolves(allProductsResponse[0]);
