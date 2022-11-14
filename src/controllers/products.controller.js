@@ -6,6 +6,12 @@ const listProducts = async (req, res) => {
   res.status(200).json(message);
 };
 
+const getProductsByQuery = async (req, res) => {
+  const { q } = req.query;
+  const { message } = await productsService.findByQuery(q);
+  res.status(200).json(message);
+};
+
 const getProduct = async (req, res) => {
   const { id } = req.params;
   const { type, message } = await productsService.findById(id);
@@ -45,6 +51,7 @@ const removeProduct = async (req, res) => {
 
 module.exports = {
   listProducts,
+  getProductsByQuery,
   getProduct,
   createProduct,
   updateProduct,

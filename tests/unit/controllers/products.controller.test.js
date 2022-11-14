@@ -38,6 +38,26 @@ describe('Testes de unidade do controller de produtos', function () {
     });
   });
 
+  describe('Buscando produtos por query', async function () {
+    it('deve retornar lista de produtos', async function () {
+      const req = {
+        query: { q: '' }
+      };
+      const res = {};
+
+      res.status = sinon.stub().returns(res);
+      res.json = sinon.stub().returns();
+      sinon
+        .stub(productsService, 'findByQuery')
+        .resolves({ type: '', message: allProductsResponse });
+
+      await productsController.getProductsByQuery(req, res);
+
+      expect(res.status).to.have.been.calledWith(200);
+      expect(res.json).to.have.been.calledWith(allProductsResponse);
+    });
+  });
+
   describe('Buscando um produto por id', async function () {
     it('deve retornar status 200 e produto caso exista', async function () {
       const req = {
