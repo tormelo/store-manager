@@ -9,13 +9,11 @@ const {
   productCreateResponse,
   validProductBody,
   invalidProductBody,
-  updateResponse,
   updatedProduct,
   validAltProductBody,
-  invalidUpdateResponse,
-  invalidDeleteResponse,
-  deleteResponse
 } = require('../mocks/products.mock');
+
+const { deleteResponse, updateResponse, invalidUpdateResponse, invalidDeleteResponse } = require('../mocks/generic.mock');
 
 describe('Testes de unidade do service de produtos', function () {
   afterEach(sinon.restore);
