@@ -1,9 +1,22 @@
 const connection = require('./connection');
 
+const findAll = async () => {
+  const [sales] = await connection.execute(`
+  SELECT 
+    s.id AS saleId, s.date, sp.product_id AS productId, sp.quantity
+  FROM
+      StoreManager.sales AS s
+  INNER JOIN
+      StoreManager.sales_products AS sp ON sp.sale_id = s.id
+  ORDER BY sale_id, product_id`);
+
+  return sales;
+};
+
 const findById = async (id) => {
   const [sale] = await connection.execute(`
   SELECT 
-    s.date, sp.product_id, sp.quantity
+    s.date, sp.product_id AS productId, sp.quantity
   FROM
       StoreManager.sales AS s
   INNER JOIN
@@ -31,6 +44,7 @@ const insert = async (products) => {
 };
 
 module.exports = {
+  findAll,
   findById,
   insert,
 };

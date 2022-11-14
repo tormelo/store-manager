@@ -3,10 +3,16 @@ const sinon = require('sinon');
 const { salesModel } = require('../../../src/models');
 
 const connection = require('../../../src/models/connection');
-const { validSaleBody, saleByIdResponse } = require('../mocks/sales.mock');
+const { validSaleBody, saleByIdResponse, allSalesResponse } = require('../mocks/sales.mock');
 
 describe('Testes de unidade do model de sales', function () {
   afterEach(sinon.restore);
+
+  it('Buscando lista de vendas', async function () {
+    sinon.stub(connection, 'execute').resolves([allSalesResponse]);
+    const result = await salesModel.findAll();
+    expect(result).to.be.deep.equal(allSalesResponse);
+  });
 
   it('Buscando uma venda por id', async function () {
     sinon.stub(connection, 'execute').resolves([saleByIdResponse]);
