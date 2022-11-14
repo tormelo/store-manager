@@ -8,7 +8,11 @@ const {
   allProductsResponse,
   productCreateResponse,
   validProductBody,
-  invalidProductBody
+  invalidProductBody,
+  updateResponse,
+  updatedProduct,
+  validAltProductBody,
+  invalidUpdateResponse
 } = require('../mocks/products.mock');
 
 describe('Testes de unidade do service de produtos', function () {
@@ -52,6 +56,25 @@ describe('Testes de unidade do service de produtos', function () {
       const { type, message } = await productsService.createProduct({});
       expect(type).to.equal('REQUIRED_FIELD');
       expect(message).to.equal('"name" is required');
+    })
+  });
+
+  describe('Atualização de um produto', async function () {
+    it('deve retornar o produto atualizado em caso de sucesso', async function () {
+      sinon.stub(productsModel, 'update').resolves(updateResponse[0]);
+      const { message } = await productsService.updateProduct(1, validAltProductBody);
+      expect(message).to.be.deep.equal(updatedProduct);
+    });
+    it('deve retornar erro se nome for inválido', async function () {
+      const { type, message } = await productsService.updateProduct(1, invalidProductBody);
+      expect(type).to.equal('INVALID_VALUE');
+      expect(message).to.equal('"name" length must be at least 5 characters long');
+    });
+    it('deve retornar erro caso não tenha encontrado produto', async function () {
+      sinon.stub(productsModel, 'update').resolves(invalidUpdateResponse[0]);
+      const { type, message } = await productsService.updateProduct(1, validAltProductBody);
+      expect(type).to.equal('PRODUCT_NOT_FOUND');
+      expect(message).to.equal('Product not found');
     })
   });
 });

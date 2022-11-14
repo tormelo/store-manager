@@ -6,6 +6,7 @@ const allProductsResponse = [
 const productCreateResponse = { id: 4, name: 'Machado do Thor Stormbreaker' };
 
 const validProductBody = { name: 'Machado do Thor Stormbreaker' };
+const validAltProductBody = { name: 'Martelo do Batman' };
 
 const invalidProductBody = { name: 'Prod' };
 
@@ -20,12 +21,33 @@ const updateResponse = [
     changedRows: 1
   },
   undefined
-]
+];
+
+const invalidUpdateResponse = [
+  {
+    fieldCount: 0,
+    affectedRows: 0,
+    insertId: 0,
+    info: 'Rows matched: 0  Changed: 0  Warnings: 0',
+    serverStatus: 2,
+    warningStatus: 0,
+    changedRows: 0
+  },
+  undefined
+];
+
+const updatedProduct = {
+  id: 1,
+  name: 'Martelo do Batman'
+};
 
 module.exports = {
   allProductsResponse,
   productCreateResponse,
   updateResponse,
+  invalidUpdateResponse,
   validProductBody,
+  validAltProductBody,
   invalidProductBody,
+  updatedProduct,
 }
