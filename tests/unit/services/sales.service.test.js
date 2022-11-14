@@ -10,10 +10,24 @@ const {
   invalidQuantitySaleBody,
   saleInsertResponse,
   saleRegisterResponse,
+  saleByIdResponse,
 } = require('../mocks/sales.mock');
 
 describe('Testes de unidade do service sales', function () {
   afterEach(sinon.restore);
+  describe('Busca de venda por id', async function () {
+    it('deve retornar a venda em caso de sucesso', async function () {
+      sinon.stub(salesModel, 'findById').resolves(saleByIdResponse);
+      const { message } = await salesService.findById(1);
+      expect(message).to.be.deep.equal(saleByIdResponse);
+    });
+    it('deve retornar mensagem se não encontrar a venda', async function () {
+      sinon.stub(salesModel, 'findById').resolves([]);
+      const { type, message } = await salesService.findById(1);
+      expect(type).to.equal('SALE_NOT_FOUND');
+      expect(message).to.equal('Sale not found');
+    })
+  });
 
   describe('Cadastro de uma venda', async function () {
     it('deve retornar a venda em caso de sucesso', async function () {

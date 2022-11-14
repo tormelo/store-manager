@@ -12,7 +12,7 @@ const validateProductBody = (productBody) => {
   return { type: null, message: '' };
 };
 
-const validateSalesData = (saleBody) => {
+const validateSaleData = (saleBody) => {
   const { error } = saleBodySchema.validate(saleBody);
   if (error) {
     let { message } = error;
@@ -35,7 +35,7 @@ const validateSaleProducts = async (saleBody) => {
 };
 
 const validateSaleBody = async (saleBody) => {
-  const dataError = validateSalesData(saleBody);
+  const dataError = validateSaleData(saleBody);
   if (dataError) return dataError;
 
   const notFoundError = await validateSaleProducts(saleBody);
