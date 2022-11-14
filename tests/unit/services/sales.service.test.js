@@ -14,6 +14,11 @@ const {
   allSalesResponse,
 } = require('../mocks/sales.mock');
 
+const {
+  deleteResponse,
+  invalidDeleteResponse,
+} = require('../mocks/generic.mock');
+
 describe('Testes de unidade do service sales', function () {
   afterEach(sinon.restore);
   describe('Busca de vendas', async function () {
@@ -59,6 +64,21 @@ describe('Testes de unidade do service sales', function () {
       const { type, message } = await salesService.registerSale(invalidSaleBody);
       expect(type).to.equal('REQUIRED_FIELD');
       expect(message).to.equal('"quantity" is required');
+    })
+  });
+
+  describe('Remoção de uma venda', async function () {
+    it('deve retornar mensagem vazia em caso de sucesso', async function () {
+      sinon.stub(salesModel, 'remove').resolves(deleteResponse[0]);
+      const { type, message } = await salesService.removeProduct(1);
+      expect(type).to.equal('');
+      expect(message).to.equal('');
+    })
+    it('deve retornar erro caso não tenha encontrado venda', async function () {
+      sinon.stub(salesModel, 'remove').resolves(invalidDeleteResponse[0]);
+      const { type, message } = await salesService.removeProduct(100);
+      expect(type).to.equal('SALE_NOT_FOUND');
+      expect(message).to.equal('Sale not found');
     })
   });
 });
