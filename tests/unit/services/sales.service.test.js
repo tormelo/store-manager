@@ -49,6 +49,7 @@ describe('Testes de unidade do service sales', function () {
 
   describe('Cadastro de uma venda', async function () {
     it('deve retornar a venda em caso de sucesso', async function () {
+      sinon.stub(productsModel, 'findById').resolves([[allProductsResponse[0]]]);
       sinon.stub(salesModel, 'insert').resolves(saleInsertResponse);
       const { message } = await salesService.registerSale(validSaleBody);
       expect(message).to.be.deep.equal(saleRegisterResponse);
