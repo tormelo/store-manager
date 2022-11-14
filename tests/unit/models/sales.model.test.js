@@ -3,6 +3,7 @@ const sinon = require('sinon');
 const { salesModel } = require('../../../src/models');
 
 const connection = require('../../../src/models/connection');
+const { deleteResponse } = require('../mocks/generic.mock');
 const { validSaleBody, saleByIdResponse, allSalesResponse } = require('../mocks/sales.mock');
 
 describe('Testes de unidade do model de sales', function () {
@@ -25,5 +26,11 @@ describe('Testes de unidade do model de sales', function () {
     sinon.stub(connection, 'query').resolves();
     const result = await salesModel.insert(validSaleBody);
     expect(result).to.be.deep.equal(4);
+  });
+
+  it('Deletando uma venda', async function () {
+    sinon.stub(connection, 'execute').resolves(deleteResponse);
+    const result = await salesModel.remove(1);
+    expect(result).to.be.deep.equal(deleteResponse[0]);
   });
 });
