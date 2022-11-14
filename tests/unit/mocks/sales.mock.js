@@ -3,6 +3,11 @@ const validSaleBody = [
   { productId: 2, quantity: 5 },
 ];
 
+const updatedSaleBody = [
+  { productId: 1, quantity: 1 },
+  { productId: 2, quantity: 5 },
+];
+
 const invalidQuantitySaleBody = [
   { productId: 1, quantity: 1 },
   { productId: 2, quantity: 0 },
@@ -59,6 +64,7 @@ const saleRegisterResponse = {
 
 module.exports = {
   validSaleBody,
+  updatedSaleBody,
   invalidSaleBody,
   invalidQuantitySaleBody,
   saleByIdResponse,

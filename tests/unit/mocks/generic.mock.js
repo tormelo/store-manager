@@ -1,3 +1,15 @@
+const insertResponse = [
+  {
+    fieldCount: 0,
+    affectedRows: 4,
+    insertId: 0,
+    info: 'Records: 2  Duplicates: 2  Warnings: 0',
+    serverStatus: 2,
+    warningStatus: 0
+  },
+  undefined
+]
+
 const updateResponse = [
   {
     fieldCount: 0,
@@ -49,6 +61,7 @@ const invalidDeleteResponse = [
 ];
 
 module.exports = {
+  insertResponse,
   updateResponse,
   invalidUpdateResponse,
   deleteResponse,

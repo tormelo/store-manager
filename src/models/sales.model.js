@@ -42,6 +42,17 @@ const insert = async (products) => {
 
   return insertId;
 };
+const update = async (id, products) => {
+  const values = products.map(({ productId, quantity }) => [id, productId, quantity]);
+
+  const [result] = await connection.query(`
+  INSERT INTO StoreManager.sales_products (sale_id, product_id, quantity) 
+  VALUES ? AS myValues
+  ON DUPLICATE KEY UPDATE quantity=myValues.quantity`,
+  [values]);
+
+  return result;
+};
 
 const remove = async (id) => {
   const [result] = await connection.execute(`
@@ -55,5 +66,6 @@ module.exports = {
   findAll,
   findById,
   insert,
+  update,
   remove,
 };

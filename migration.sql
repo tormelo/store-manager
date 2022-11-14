@@ -20,6 +20,7 @@ CREATE TABLE sales_products (
   sale_id INT NOT NULL,
   product_id INT NOT NULL,
   quantity INT NOT NULL,
+  CONSTRAINT PRIMARY KEY (sale_id , product_id),
   FOREIGN KEY (sale_id)
     REFERENCES sales (id)
     ON DELETE CASCADE,
