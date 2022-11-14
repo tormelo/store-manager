@@ -83,8 +83,9 @@ describe('Testes de unidade do service de produtos', function () {
   describe('Remoção de um produto', async function () {
     it('deve retornar undefined em caso de sucesso', async function () {
       sinon.stub(productsModel, 'remove').resolves(deleteResponse[0]);
-      const result = await productsService.removeProduct(1);
-      expect(result).to.equal(undefined);
+      const { type, message } = await productsService.removeProduct(1);
+      expect(type).to.equal('');
+      expect(message).to.equal('');
     })
     it('deve retornar erro caso não tenha encontrado produto', async function () {
       sinon.stub(productsModel, 'remove').resolves(invalidDeleteResponse[0]);
