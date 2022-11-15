@@ -32,7 +32,10 @@ const updateSale = async (saleId, saleBody) => {
   const error = await validateSaleUpdate(saleId, saleBody);
   if (error.type) return error;
 
-  await salesModel.update(saleId, saleBody);
+  await Promise.all(saleBody.map(async (product) => {
+    await salesModel.update(saleId, product);
+  }));
+
   const updatedSale = {
     saleId,
     itemsUpdated: [

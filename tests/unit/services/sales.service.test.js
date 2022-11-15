@@ -19,7 +19,7 @@ const {
 const {
   deleteResponse,
   invalidDeleteResponse,
-  insertResponse,
+  updateResponse,
 } = require('../mocks/generic.mock');
 const { allProductsResponse } = require('../mocks/products.mock');
 
@@ -76,7 +76,7 @@ describe('Testes de unidade do service sales', function () {
     it('deve retornar a venda atualizada em caso de sucesso', async function () {
       sinon.stub(productsModel, 'findById').resolves([[allProductsResponse[0]]]);
       sinon.stub(salesModel, 'findById').resolves([saleByIdResponse]);
-      sinon.stub(salesModel, 'update').resolves(insertResponse);
+      sinon.stub(salesModel, 'update').resolves(updateResponse);
       const { message } = await salesService.updateSale(1, updatedSaleBody);
       expect(message).to.be.deep.equal(saleUpdateResponse);
     });
