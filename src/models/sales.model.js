@@ -42,17 +42,33 @@ const insert = async (products) => {
 
   return insertId;
 };
-const update = async (id, products) => {
-  const values = products.map(({ productId, quantity }) => [id, productId, quantity]);
 
-  const [result] = await connection.query(`
-  INSERT INTO StoreManager.sales_products (sale_id, product_id, quantity) 
-  VALUES ? AS myValues
-  ON DUPLICATE KEY UPDATE quantity=myValues.quantity`,
-  [values]);
+const update = async (id, product) => {
+  const [result] = await connection.execute(`
+  UPDATE StoreManager.sales_products
+  SET quantity = ?
+  WHERE sale_id = ? AND product_id = ?`,
+    [product.quantity, id, product.productId]);
 
   return result;
 };
+
+//
+// Alternativa que funcionaria com uma única chamada de update
+// desde que sale_id e product_id fossem uma chave primária composta
+//
+// const update = async (id, products) => {
+//   const values = products.map(({ productId, quantity }) => [id, productId, quantity]);
+
+//   const [result] = await connection.query(`
+//   INSERT INTO StoreManager.sales_products (sale_id, product_id, quantity) 
+//   VALUES ? AS myValues
+//   ON DUPLICATE KEY UPDATE quantity=myValues.quantity`,
+//   [values]);
+
+//   return result;
+// };
+//
 
 const remove = async (id) => {
   const [result] = await connection.execute(`
